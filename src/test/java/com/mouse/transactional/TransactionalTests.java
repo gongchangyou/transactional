@@ -32,7 +32,11 @@ class TransactionalTests {
     void TransactionalUpdate() {
         for (int i = 0; i < 10;i++) {
             threadPoolExecutor.submit(() -> {
-                testService.incr(1L);
+                try {
+                    testService.incr(1L);
+                } catch (Exception e) {
+                    log.error("msg {}", e.getMessage(), e);
+                }
             });
         }
 

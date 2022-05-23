@@ -18,14 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TestService extends ServiceImpl<TestMapper, Test> implements IService<Test> {
 
-    @Transactional
-    public void incr(long id) {
+    @Transactional(rollbackFor = Exception.class)
+    public void incr(long id) throws Exception {
         val model = baseMapper.selectOne(new LambdaQueryWrapper<Test>()
                 .eq(com.mouse.transactional.repository.db.model.Test::getId, 1L)
                 .last(" for update"));
         log.info("value={}", model.getValue());
         model.setValue(model.getValue() + 1);
         updateById(model);
+        throw new Exception("wer");
     }
 
 }
