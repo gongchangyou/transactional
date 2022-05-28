@@ -66,6 +66,40 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${maven-antrun-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <!-- https://github.com/apache/maven/blob/trunk/maven-model-builder/src/main/resources/org/apache/maven/model/pom-4.0.0.xml#L53 -->
+                                <mkdir dir="${project.build.directory}/config/"/>
+<!--                                从url获取内容-->
+<!--                                <get dest="${project.build.directory}/cloudconf.properties" src="${cloud.conf.url}"/>-->
+                                <!-- https://ant.apache.org/manual/Tasks/copy.html -->
+                                <copy failonerror="false" file="${project.build.directory}/classes/application.properties" tofile="${project.build.directory}/config/application.yml"/>
+                                <copy file="${project.build.directory}/classes/application.properties" tofile="${project.build.directory}/config/application.yml"/>
+<!--                                <tar compression="gzip" destfile="${ftp.dir}/all.tar.gz">-->
+<!--                                    <tarfileset dir="${project.build.directory}">-->
+<!--                                        <include name="bin/**"/>-->
+<!--                                        <include name="config/**"/>-->
+<!--                                        <include name="${project.artifactId}.conf"/>-->
+<!--                                        <include name="${project.artifactId}-${project.version}.jar"/>-->
+<!--                                    </tarfileset>-->
+<!--                                </tar>-->
+<!--                                <checksum file="${ftp.dir}/all.tar.gz" todir="${ftp.dir}"/>-->
+<!--                                <move file="${ftp.dir}/all.tar.gz.MD5" tofile="${ftp.dir}/all.md5"/>-->
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

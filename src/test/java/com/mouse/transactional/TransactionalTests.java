@@ -25,8 +25,7 @@ class TransactionalTests {
 
 
     /**
-     * 以下方案也不行, 不是线程安全
-     * 无法实现10个线程给 value + 10 的功能
+     * 事务
      */
     @Test
     void TransactionalUpdate() {
@@ -34,6 +33,29 @@ class TransactionalTests {
             threadPoolExecutor.submit(() -> {
                 try {
                     testService.incr(1L);
+                } catch (Exception e) {
+                    log.error("msg {}", e.getMessage(), e);
+                }
+            });
+        }
+
+        try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 非事务抛异常， 数据库已经更新
+     */
+    @Test
+    void decr() {
+        for (int i = 0; i < 10;i++) {
+            threadPoolExecutor.submit(() -> {
+                try {
+                    testService.decr(1L);
                 } catch (Exception e) {
                     log.error("msg {}", e.getMessage(), e);
                 }

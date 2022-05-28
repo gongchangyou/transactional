@@ -29,4 +29,14 @@ public class TestService extends ServiceImpl<TestMapper, Test> implements IServi
         throw new Exception("wer");
     }
 
+    public void decr(long id) throws Exception {
+        val model = baseMapper.selectOne(new LambdaQueryWrapper<Test>()
+                .eq(com.mouse.transactional.repository.db.model.Test::getId, 1L)
+                .last(" for update"));
+        log.info("value={}", model.getValue());
+        model.setValue(model.getValue() - 1);
+        updateById(model);
+        throw new Exception("wer");
+    }
+
 }
