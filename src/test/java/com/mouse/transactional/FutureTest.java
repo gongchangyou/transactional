@@ -41,4 +41,31 @@ public class FutureTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    void timeout() {
+        CompletableFuture cf = new CompletableFuture<String>();
+
+        cf.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return "xxx";
+        });
+
+        cf.orTimeout(2, TimeUnit.SECONDS);
+
+        //这里可以直接complete future
+//        new Thread(()->{cf.complete("ddd");}).start();
+
+        try {
+            val value = cf.get();
+            log.info("value={} ",value);
+        } catch (InterruptedException | ExecutionException  e) {
+            e.printStackTrace();
+        }
+    }
 }
