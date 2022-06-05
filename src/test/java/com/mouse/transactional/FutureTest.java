@@ -44,9 +44,7 @@ public class FutureTest {
 
     @Test
     void timeout() {
-        CompletableFuture cf = new CompletableFuture<String>();
-
-        cf.supplyAsync(() -> {
+        CompletableFuture<String> cf = CompletableFuture.supplyAsync(() -> {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -56,15 +54,15 @@ public class FutureTest {
             return "xxx";
         });
 
-        cf.orTimeout(2, TimeUnit.SECONDS);
-
+//        cf.orTimeout(2, TimeUnit.SECONDS);
+cf.completeOnTimeout("yyy", 2, TimeUnit.SECONDS);
         //这里可以直接complete future
 //        new Thread(()->{cf.complete("ddd");}).start();
 
         try {
             val value = cf.get();
             log.info("value={} ",value);
-        } catch (InterruptedException | ExecutionException  e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
