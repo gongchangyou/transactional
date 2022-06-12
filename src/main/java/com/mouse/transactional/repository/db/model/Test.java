@@ -25,5 +25,6 @@ public class Test {
    * 值
    */
   private Long value;
+  private Long version;
 
 }
