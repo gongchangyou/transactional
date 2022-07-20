@@ -26,6 +26,8 @@ class TransactionalTests {
 
     /**
      * 事务
+     * 成功的事务
+     * 如果在事务中抛异常， mysql会rollback
      */
     @Test
     void TransactionalUpdate() {
@@ -48,7 +50,7 @@ class TransactionalTests {
 
 
     /**
-     * 非事务抛异常， 数据库已经更新
+     * 非事务 ，如果decr中抛异常， 数据库不会rollback，记录会更新
      */
     @Test
     void decr() {

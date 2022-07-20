@@ -30,6 +30,19 @@ public class UpdateTest {
     private TestMapper testMapper;
 
     private ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10,10,0, TimeUnit.SECONDS, new LinkedBlockingQueue<>(10));
+
+    @Test
+    void singleUpdate() {
+            val result = testMysqlDao.updateValue(1L);
+            log.info("result={}", result);
+    }
+    
+    @Test
+    void findById() {
+        val result = testMysqlDao.findById(1L);
+        log.info("result={}", result);
+    }
+    
     @Test
     void update() {
         for (int i = 0; i < 10;i++) {

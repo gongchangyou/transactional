@@ -26,7 +26,8 @@ public class TestService extends ServiceImpl<TestMapper, Test> implements IServi
         log.info("value={}", model.getValue());
         model.setValue(model.getValue() + 1);
         updateById(model);
-        throw new Exception("wer");
+        //事务里面抛异常，会回滚
+//        throw new Exception("wer");
     }
 
     public void decr(long id) throws Exception {
